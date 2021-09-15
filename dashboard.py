@@ -1,4 +1,5 @@
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import multiprocessing
 from matplotlib.figure import Figure
 from threading import Thread
 from tkinter import ttk 
@@ -9,7 +10,7 @@ from GraphParser import run_update
 
 def parser_amoun():
     get_data = run_update()
-    amount = []
+    amount = []             
     for i in get_data:
         amount.append(i)
     return amount
@@ -31,7 +32,8 @@ class App(tk.Tk):
         input_frame = ttk.Frame(self)
         input_frame.grid(column=1, row=0)
         self.new_draw()
-        Thread(target=self.update_sap_data).start()
+        Thread(target=self.update_sap_data, daemon=True).start()
+
 
     def plotter(self):
         self.figure = Figure(figsize=(20,11), dpi=100)
@@ -54,5 +56,6 @@ class App(tk.Tk):
     
     def quit(self, event):
         self.destroy()
+        
 
 App().mainloop()
