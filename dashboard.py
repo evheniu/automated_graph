@@ -1,5 +1,4 @@
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import multiprocessing
 from matplotlib.figure import Figure
 from threading import Thread
 from tkinter import ttk 
