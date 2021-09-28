@@ -3,7 +3,7 @@ from matplotlib.figure import Figure
 from threading import Thread
 from tkinter import ttk 
 import tkinter as tk
-from SapAutomation import sap_update
+from SapAutomation import sap_update, reloads
 from GraphParser import run_update
 
 
@@ -31,8 +31,8 @@ class App(tk.Tk):
         input_frame = ttk.Frame(self)
         input_frame.grid(column=1, row=0)
         self.new_draw()
-        Thread(target=self.update_sap_data, daemon=True).start()
-
+        Thread(target=sap_update, daemon=True).start()
+        Thread(target=self.reload_sap_data, daemon=True).start()
 
     def plotter(self):
         self.figure = Figure(figsize=(20,11), dpi=100)
@@ -48,13 +48,12 @@ class App(tk.Tk):
         self.axes.set_ylabel(' Кількість комплектів   ', fontsize = 24)
         self.plot_canvas.draw_idle()
         self.page.after(1000*5, self.new_draw)
-
-    def update_sap_data(self):
-        sap_update()
-        self.after(1000*60*15, self.update_sap_data)    
+         
+    def reload_sap_data(self):
+        self.after(1000*60*10, self.reload_sap_data)
+        reloads()   
     
     def quit(self, event):
         self.destroy()
         
-
 App().mainloop()

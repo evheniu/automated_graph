@@ -7,6 +7,7 @@ import sys
 
 win_1 = "SAP Easy Access"
 win_2 = "Backlog list"
+win_3 = "ABAP: Variant Directory of Program ZWRUECKSTAND_MX"
 delay = 2
 
 
@@ -57,33 +58,27 @@ def sap_update():
     t = True
     find_win(t, win_1)
     press_key(delay, 'esc', 5)
+    t = True
+    find_win(t, win_1)
     text_input(delay, '/nzwrs_mx')
+    t = True
+    find_win(t, win_1)
     press_key(delay, 'enter', 1)
     t = True
     find_win(t, win_2)
-    press_hotkey(delay, ['ctrl', 'a'])        
-    text_input(delay, '0313')
-    press_key(delay, 'down', 3)
-    text_input(delay, '4000000')
-    press_key(delay, 'tab', 1)
-    text_input(delay, '4999999')
-    press_key(delay, 'down', 9)
-    press_key(delay, 'tab', 4)
-    press_key(delay, 'down', 1)
-    press_key(delay, 'f8', 1)
+    press_hotkey(delay, ['shift', 'f5'])
     t = True
-    ctrl = wait_for_windows()
-    while t:
-        try:
-            ctrl.parent
-            t = False
-        except pywinauto.findwindows.ElementNotFoundError:
-            wait_for_windows()
-    time.sleep(delay)
-    press_hotkey(delay, ['ctrl', 'shift', 'f9'])
-    press_key(delay, 'enter', 1)
-    press_hotkey(delay, ['ctrl', 'a'])
-    text_input(delay, 'data.txt')
-    press_hotkey(delay, ['ctrl', 's'])
-    press_key(delay, 'esc', 10)
-    press_key(delay, 'esc', 10)
+    find_win(t, win_3) 
+    press_key(delay, 'right', 3) 
+    t = True
+    find_win(t, win_3)       
+    press_key(delay, 'f2', 1)
+    t = True
+    find_win(t, win_2)
+    press_key(delay, 'f8', 1)
+
+def reloads():
+    whnd = win32gui.FindWindowEx(None, None, None, win_2)
+    if not (whnd == 0):
+        win32gui.SetForegroundWindow(whnd)
+    press_key(delay, 'f8', 1)

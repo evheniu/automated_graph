@@ -31,20 +31,20 @@ def run_update():
         reader = csv.reader(File)
         for row in reader:
             try:
-                tmp = row[1].split("|")[3]
+                tmp = row[0].split("|")[4]
                 tmp = int(tmp)
                 try:
                     if int(tmp) > 2:
                         for i in row:
                             try:
-                                if re.search(r'seat', i.split('|')[4].lower()) and not re.search(r'bmw', i.split('|')[4].lower()):
-                                    seat += int(i.split('|')[5])
-                                if re.search(r'bmw', i.split('|')[4].lower()):
-                                    bmw += int(i.split('|')[5])
-                                if re.search(r'audi', i.split('|')[4].lower()):
-                                    audi += int(i.split('|')[5])
-                                if re.search(r'br223', i.split('|')[4].lower()):
-                                    br223 += int(i.split('|')[5])
+                                if re.search(r'seat', i.split('|')[2].lower()) and not re.search(r'bmw', i.split('|')[2].lower()):
+                                    seat += float(i.split('|')[3])
+                                if re.search(r'bmw', i.split('|')[2].lower()):
+                                    bmw += float(i.split('|')[3])
+                                if re.search(r'audi', i.split('|')[2].lower()):
+                                    audi += float(i.split('|')[3])
+                                if re.search(r'br223', i.split('|')[2].lower()):
+                                    br223 += float(i.split('|')[3])
                             except IndexError:
                                 continue
                 except ValueError:
