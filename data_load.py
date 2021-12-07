@@ -43,7 +43,6 @@ def sap_update():
     press_key(delay, 'f8', 1)
 
 def reloads():
-    whnd = win32gui.FindWindowEx(None, None, None, win_2)
-    if not (whnd == 0):
-        win32gui.SetForegroundWindow(whnd)
+    find_win_and_set_foreground(win_2)
     press_key(delay, 'f8', 1)
+    
