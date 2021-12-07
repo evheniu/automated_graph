@@ -3,8 +3,9 @@ from matplotlib.figure import Figure
 from threading import Thread
 from tkinter import ttk 
 import tkinter as tk
-from SapAutomation import sap_update, reloads
-from GraphParser import run_update
+from login_to_SAP import sign_in, check_window_exist
+from data_parser import run_update
+from data_load import sap_update, reloads
 
 
 def parser_amoun():
@@ -31,19 +32,21 @@ class App(tk.Tk):
         input_frame = ttk.Frame(self)
         input_frame.grid(column=1, row=0)
         self.new_draw()
+        Thread(target=sign_in, daemon=True).start()
+        Thread(target=check_window_exist, daemon=True).start()
         Thread(target=sap_update, daemon=True).start()
         Thread(target=self.reload_sap_data, daemon=True).start()
 
     def plotter(self):
         self.figure = Figure(figsize=(20,11), dpi=100)
-        self.figure.suptitle("Замовлення з перевищеним терміном виконання більше 2-ох днів")
+        self.figure.suptitle("Замовлення з перевищеним терміном виконання більше 2-ох днів для Audi, та 1 день для решти проектів!")
         self.plot_canvas = FigureCanvasTkAgg(self.figure, self.page)
         self.axes = self.figure.add_subplot(111)
         self.plot_canvas.get_tk_widget().grid(column=0, row=0, sticky='nsew')
 
     def new_draw(self):
         self.axes.clear()
-        self.axes.bar(["Seat", "BMW", "Audi", "Daimler"], parser_amoun(), color='r')
+        self.axes.bar(["Seat", "BMW", "Audi", "Daimler", "Skoda"], parser_amoun(), color='r')
         self.axes.tick_params(axis='both', which='both', labelsize=32)
         self.axes.set_ylabel(' Кількість комплектів   ', fontsize = 24)
         self.plot_canvas.draw_idle()
@@ -55,5 +58,4 @@ class App(tk.Tk):
     
     def quit(self, event):
         self.destroy()
-        
 App().mainloop()
